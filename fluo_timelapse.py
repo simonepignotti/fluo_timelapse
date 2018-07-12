@@ -22,18 +22,18 @@ config_dict = {
             'f_val': '2',
         },
         'bGFP': {
-            'exp': '1/25',
-            'iso': '400',
+            'exp': '1/8',
+            'iso': '200',
             'f_val': '1',
         },
         'cCFP': {
-            'exp': '1',
-            'iso': '800',
-            'f_val': '9',
+            'exp': '1/8',
+            'iso': '400',
+            'f_val': '2',
         },
         'mCherry': {
-            'exp': '2',
-            'iso': '1600',
+            'exp': '1/4',
+            'iso': '400',
             'f_val': '1',
         },
     },
@@ -104,7 +104,7 @@ def set_camera_config(camera, exp, iso, f_val):
     assert error == 0, "ERROR while setting aperture to {}".format(f_val)
 
     if DEBUG:
-        print('Setting new camera configuration...', file=sys.stderr)
+        print("Setting new camera configuration (exp {}, iso {}, f {})...".format(exp, iso, f_val), file=sys.stderr)
     error = gp.check_result(gp.gp_camera_set_config(camera, camera_config))
     assert error == 0, "ERROR while setting camera configuration"
     if DEBUG:
@@ -114,6 +114,7 @@ def set_camera_config(camera, exp, iso, f_val):
 def timelapse(camera, wheel, relay, config_dict):
 
     ch_idx = 0
+    # TODO: detect pictures already present in work_dir and continue numbering
     capture_idx = -1
     work_dir = config_dict['work_dir']
     interval = config_dict['interval']
@@ -186,10 +187,11 @@ def timelapse(camera, wheel, relay, config_dict):
             if DEBUG:
                 print('Rotating filter wheel...', file=sys.stderr)
             wheel.write([ch_idx+1, 0])
+            time.sleep(1)
             if DEBUG:
                 print('Filter wheel rotated', file=sys.stderr)
 
-            if ch_idx == len(channels)-1:
+            if ch_idx == 0:
                 # just to be sure...if relay off command lost, screw up only one shot
                 relay.write("reset\n\r".encode('utf-8'))
                 if DEBUG:
@@ -199,6 +201,7 @@ def timelapse(camera, wheel, relay, config_dict):
                     print(relay.readlines(), file=sys.stderr)
                 # TODO: sleep the diff between time of first shot and now
                 # (so that same channel has ~ interval)
+                print("Going to sleep", file=sys.stderr)
                 time.sleep(interval)
 
     except KeyboardInterrupt:
