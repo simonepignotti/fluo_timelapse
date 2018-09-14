@@ -5,6 +5,8 @@ Idea: shoot timelapses of bacterial colonies, genetically modified to produce fl
 ## Run it
 `./fluo_timelapse.py config.json`
 
+An example of configuration dictionary is included at the beginning of the script, which is used automatically if no command line argument is passed.
+
 Stop it using SIGINT (`Ctrl`+`C`).
 
 ## Dev it
