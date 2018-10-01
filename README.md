@@ -1,6 +1,6 @@
 # Fluorescent Macroscopy Timelapse
 
-Idea: shoot timelapses of bacterial colonies, genetically modified to produce fluorescent proteins, using LEDs of different colors to trigger the different fluorescent populations' responses, optical filters to isolate the fluorescent signals, and a DSLR camera to capture images.
+Idea: shoot timelapses of bacterial colonies, genetically modified to produce fluorescent proteins, using LEDs of different colors to trigger the different fluorescent populations' responses, optical filters to isolate the fluorescent signals, and a DSLR camera to capture images. All credit for the idea goes to Michael Baym @ [baymlab.hms.harvard.edu](https://baymlab.hms.harvard.edu/)
 
 ## Run it
 `./fluo_timelapse.py config.json`
